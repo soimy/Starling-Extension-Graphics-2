@@ -1,0 +1,12 @@
+{
+    "config": "air",
+    "type": "lib",
+    "compilerOptions": {
+        "output": "bin/starling-extension-graphics.swc",
+        "source-path": [ "src" ],
+        "library-path": [ "lib" ],
+        "include-sources": [
+            "src"
+        ]
+    }
+}
