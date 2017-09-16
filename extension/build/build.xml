@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+  ~
+  ~ Starling Framework
+  ~ Copyright Gamua GmbH. All Rights Reserved.
+  ~
+  ~ This program is free software. You can redistribute and/or modify it
+  ~ in accordance with the terms of the accompanying license agreement.
+  ~
+  -->
+<project name="starling-extension-graphics" basedir=".." default="build">
+  <description>Starling-Extension-Graphics SWC Assembler</description>
+
+  <!-- Properties -->
+
+  <property environment="env" />
+  <condition property="airsdk.root" value="${env.AIR_HOME}">
+    <isset property="env.AIR_HOME"/> <!-- check for Adobe AIR SDK env. variable -->
+  </condition>
+
+  <dirname property="here" file="${ant.file}" />
+  <property file="${here}/build.local.properties"/> <!-- optional file for local settings -->
+  <property file="${here}/build.properties"/>
+
+  <echo message="Using SDK: ${airsdk.root}"/>
+
+  <!-- Targets -->
+
+  <target name="prepare">
+    <echo message="Creating temporary folder"/>
+    <mkdir dir="${deploy.dir}" />
+  </target>
+
+  <target name="build-swc">
+    <echo message="Building ${ant.project.name}.swc"/>
+    <java jar="${compc}" dir="${src.dir}" fork="true" failonerror="true">
+      <arg value="-load-config=${airsdk.config}"/>
+      <arg value="-swf-version=${swf.version}"/>
+      <arg value="-source-path+=."/>
+      <arg value="-include-sources+=."/>
+      <arg value="-library-path+=../lib"/> 
+      <arg value="-output=${deploy.dir}/${ant.project.name}.swc"/>
+    </java>
+  </target>
+
+  <target name="build" depends="build-swc"
+    description="Build SWC file, including ASDoc code hints." />
+
+</project>
